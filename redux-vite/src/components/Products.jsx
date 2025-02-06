@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { increment } from "../ProductSlice";
+// import Cart from "./Cart";
 
 
 const url = "https://67a3a5e231d0d3a6b78440d6.mockapi.io/prds";
@@ -9,29 +11,42 @@ const url = "https://67a3a5e231d0d3a6b78440d6.mockapi.io/prds";
 function Products() {
 
     const [products, setProducts] = React.useState([]);
-    const count = useSelector((state) => state.count);
+    const count = useSelector((state) => state.product.count);
+    const productss = useSelector(state => state.product.products);
+
+
+
     const dispatch = useDispatch();
 
     React.useEffect(() => {
         axios.get(url).then((response) => {
             setProducts(response.data);
 
+
         });
     }, []);
 
     async function addToCart(Id) {
-        console.log(Id);
+        // console.log(Id);
 
-        await axios.put(`${url}/${Id}`, {
-            inCart: true
-        })
+        // await axios.put(`${url}/${Id}`, {
+        //     inCart: true
+        // })
+
+        const response = await axios.get(`${url}/${Id}`);
+        const product = response.data;
+
+        // Dispatch the action with the resolved data
+        dispatch(increment(product));
 
 
 
 
-        dispatch({ type: "INCREMENT", products });
 
     }
+    // function addToCheckout() {
+    //     <Cart />
+    // }
 
 
 
@@ -157,7 +172,96 @@ function Products() {
                     </div>
 
                 ))}
+                {/* <button onClick={() => { addToCheckout }}>
+                    Go to Checkout
+                </button> */}
             </div>
+            {/* {productss.map((prd) => (
+
+                <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow">
+                    <div className="p-6">
+                        <h2 className="text-2xl font-semibold mb-6">Shopping Cart</h2>
+
+                        
+                        <div className="space-y-4">
+                           
+                            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+                                <div className="flex items-center space-x-4">
+                                    <img
+                                        src="/api/placeholder/80/80"
+                                        alt="Product"
+                                        className="w-16 h-16 object-cover rounded"
+                                    />
+                                    <div>
+                                        <h3 className="font-medium text-gray-900">{prd.name}</h3>
+                                        <p className="text-gray-600">$99.99</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center space-x-4">
+                                    <div className="flex items-center space-x-2">
+                                        <button className="p-1 rounded hover:bg-gray-100">
+
+                                        </button>
+                                        <span className="w-8 text-center">1</span>
+                                        <button className="p-1 rounded hover:bg-gray-100">
+
+                                        </button>
+                                    </div>
+                                    <button className="p-1 text-red-500 hover:bg-red-50 rounded">
+
+                                    </button>
+                                </div>
+                            </div>
+
+                            
+                            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+                                <div className="flex items-center space-x-4">
+                                    <img
+                                        src="/api/placeholder/80/80"
+                                        alt="Product"
+                                        className="w-16 h-16 object-cover rounded"
+                                    />
+                                    <div>
+                                        <h3 className="font-medium text-gray-900">Smartphone Case</h3>
+                                        <p className="text-gray-600">$24.99</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center space-x-4">
+                                    <div className="flex items-center space-x-2">
+                                        <button className="p-1 rounded hover:bg-gray-100">
+
+                                        </button>
+                                        <span className="w-8 text-center">2</span>
+                                        <button className="p-1 rounded hover:bg-gray-100">
+
+                                        </button>
+                                    </div>
+                                    <button className="p-1 text-red-500 hover:bg-red-50 rounded">
+
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div className="mt-6 pt-6 border-t border-gray-200">
+                            <div className="flex justify-between text-base font-medium text-gray-900">
+                                <p>Subtotal</p>
+                                <p>$124.98</p>
+                            </div>
+                            <p className="mt-1 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+                            <div className="mt-6">
+                                <button className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700">
+                                    Checkout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ))} */}
+            {console.log(productss)}
         </>
     );
 };

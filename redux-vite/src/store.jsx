@@ -1,28 +1,14 @@
-import { createStore } from "redux";
-
-const initialState = {
-    count: 0,
-
-    prod: []
+import { configureStore } from "@reduxjs/toolkit";
+import ProductSlice from "./ProductSlice";
 
 
-};
 
-const counterReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case "INCREMENT":
-            return {
-                count: state.count + 1
+const store = configureStore({
 
-
-            };
-        case "DECREMENT":
-            return { count: state.count - 1 };
-        default:
-            return state;
+    reducer: {
+        product: ProductSlice
     }
-};
 
-const store = createStore(counterReducer);
+});
 
 export default store;
