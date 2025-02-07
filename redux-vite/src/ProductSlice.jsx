@@ -23,14 +23,19 @@ const ProductSlice = createSlice({
             // console.log(productss); // This will print the actual array contents
 
         },
+        deleteProduct: (state, action) => {
+
+            state.products = state.products.filter((product) => product.id !== action.payload);
+            state.count -= 1;
+
+
+        }
 
 
 
     }
-
-
-
 });
-export const { increment } = ProductSlice.actions;
+
+export const { increment, deleteProduct } = ProductSlice.actions;
 
 export default ProductSlice.reducer;
